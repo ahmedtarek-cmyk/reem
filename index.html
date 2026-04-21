@@ -17,8 +17,6 @@
             background-attachment: fixed;
             font-family: 'Poppins', 'Segoe UI', 'Dancing Script', cursive, sans-serif;
             overflow-x: hidden;
-            position: relative;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -26,7 +24,6 @@
             padding: 1rem;
         }
 
-        /* glitter overlay */
         .glitter {
             position: fixed;
             top: 0;
@@ -50,14 +47,13 @@
             100% { background-position: 50px 50px; }
         }
 
-        /* main card */
         .birthday-card {
             position: relative;
             z-index: 20;
-            background: rgba(255, 248, 225, 0.92);
+            background: rgba(255, 248, 225, 0.95);
             backdrop-filter: blur(12px);
             border-radius: 80px;
-            padding: 2rem 2rem 2.5rem;
+            padding: 2rem;
             max-width: 900px;
             width: 100%;
             box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3), 0 0 0 8px rgba(255, 215, 0, 0.5), 0 0 0 14px rgba(255, 100, 100, 0.4);
@@ -65,9 +61,9 @@
         }
 
         @keyframes floatGlow {
-            0% { transform: translateY(0px); box-shadow: 0 30px 50px rgba(0,0,0,0.2), 0 0 0 8px rgba(255,215,0,0.5); }
-            50% { transform: translateY(-12px); box-shadow: 0 45px 65px rgba(0,0,0,0.3), 0 0 0 14px rgba(255,200,0,0.8); }
-            100% { transform: translateY(0px); box-shadow: 0 30px 50px rgba(0,0,0,0.2), 0 0 0 8px rgba(255,215,0,0.5); }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
         }
 
         h1 {
@@ -77,7 +73,6 @@
             -webkit-background-clip: text;
             color: transparent;
             font-family: 'Dancing Script', cursive;
-            margin-bottom: 0.5rem;
         }
 
         .name {
@@ -86,7 +81,6 @@
             color: #ff2e4d;
             text-shadow: 3px 3px 0 #ffe0a3;
             margin: 0.5rem 0;
-            letter-spacing: 2px;
             word-break: break-word;
         }
 
@@ -102,51 +96,63 @@
         }
 
         .song-container {
-            margin: 25px 0 20px;
+            margin: 20px 0;
             background: rgba(0,0,0,0.2);
-            border-radius: 60px;
-            padding: 10px;
+            border-radius: 40px;
+            padding: 15px;
         }
 
-        .unmute-btn {
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 250px;
+            border: none;
+        }
+
+        .unmute-btn, .confetti-btn {
             background: linear-gradient(145deg, #ffb347, #ff8c1a);
             border: none;
             font-weight: bold;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             padding: 12px 28px;
             border-radius: 60px;
             cursor: pointer;
             font-family: inherit;
             color: white;
             text-shadow: 0 1px 2px black;
-            box-shadow: 0 8px 0 #a25817;
+            box-shadow: 0 6px 0 #a25817;
             transition: 0.05s linear;
-            margin-top: 12px;
+            margin: 8px;
         }
 
-        .unmute-btn:active {
+        .unmute-btn:active, .confetti-btn:active {
             transform: translateY(3px);
-            box-shadow: 0 4px 0 #a25817;
+            box-shadow: 0 3px 0 #a25817;
         }
 
         .confetti-btn {
             background: linear-gradient(145deg, #6a4e9b, #4a2e6b);
-            box-shadow: 0 8px 0 #2e1a47;
-            margin-left: 12px;
+            box-shadow: 0 6px 0 #2e1a47;
         }
 
         .footer-note {
-            margin-top: 30px;
+            margin-top: 25px;
             font-size: 0.9rem;
             background: rgba(0,0,0,0.3);
             display: inline-block;
             padding: 6px 20px;
             border-radius: 60px;
             color: #fff3e0;
-            backdrop-filter: blur(4px);
         }
 
-        /* floating particles */
         .floating-particles {
             position: fixed;
             top: 0;
@@ -169,11 +175,12 @@
         }
 
         @media (max-width: 650px) {
-            .birthday-card { padding: 1.5rem; }
+            .birthday-card { padding: 1.2rem; }
             h1 { font-size: 2rem; }
             .name { font-size: 1.6rem; }
             .love-message { font-size: 1.2rem; }
             .unmute-btn { font-size: 1rem; padding: 8px 20px; }
+            .video-wrapper iframe { height: 200px; }
         }
     </style>
 </head>
@@ -189,10 +196,18 @@
     <div class="love-message">💖 I love you so much! 💖</div>
     
     <div class="song-container">
-        <p style="font-weight: bold; margin-bottom: 8px;">🎵 Your special song is ready 🎵</p>
-        <div id="youtubePlayer"></div>
+        <p style="font-weight: bold; margin-bottom: 10px;">🎵 Your special song is ready 🎵</p>
+        <div class="video-wrapper">
+            <!-- SIMPLE YOUTUBE EMBED - NO PLAYLIST, NO RADIO, ONLY autoplay+mute -->
+            <iframe id="youtubeFrame" 
+                    src="https://www.youtube.com/embed/ejpALUeSRcE?autoplay=1&mute=1&loop=1&playlist=ejpALUeSRcE&controls=1&disablekb=0&modestbranding=1&rel=0"
+                    title="Happy Birthday Song"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
+        </div>
         <button id="unmuteButton" class="unmute-btn">🔊 Click to Unmute & Enjoy Song 🔊</button>
-        <button id="confettiButton" class="unmute-btn confetti-btn">🎉 Celebrate! Burst Confetti 🎉</button>
+        <button id="confettiButton" class="confetti-btn">🎉 Celebrate! Burst Confetti 🎉</button>
     </div>
     
     <div class="footer-note">
@@ -201,79 +216,29 @@
 </div>
 
 <script>
-    // ============================================================
-    // 1. YouTube Player with autoplay (muted) - specific song from URL
-    // Song ID: ejpALUeSRcE (from the link)
-    // ============================================================
-    let player;
-    let isMuted = true;
+    // ========== UNMUTE FUNCTION ==========
+    const iframe = document.getElementById('youtubeFrame');
+    const unmuteBtn = document.getElementById('unmuteButton');
     
-    // Load YouTube IFrame API
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('youtubePlayer', {
-            height: '200',
-            width: '100%',
-            videoId: 'ejpALUeSRcE',    // your song ID
-            playerVars: {
-                'autoplay': 1,          // attempt autoplay (will be muted)
-                'mute': 1,              // start muted to allow autoplay
-                'loop': 1,              // loop the song
-                'playlist': 'ejpALUeSRcE',
-                'controls': 1,
-                'disablekb': 0,
-                'modestbranding': 1,
-                'rel': 0
-            },
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        // Player is ready, autoplay already triggered (muted)
-        console.log("Player ready, song started muted.");
-        // small confetti burst to celebrate load
-        setTimeout(() => burstConfetti(window.innerWidth/2, window.innerHeight/2, 80), 500);
-    }
-
-    function onPlayerStateChange(event) {
-        // If video ends, replay (loop already set)
-        if (event.data === YT.PlayerState.ENDED) {
-            player.playVideo();
-        }
-    }
-
-    // Unmute function called by button
-    function unMuteSong() {
-        if (player && player.unMute) {
-            player.unMute();
-            player.setVolume(70);
-            isMuted = false;
-            // change button text
-            const btn = document.getElementById('unmuteButton');
-            btn.innerHTML = "🔊 Song is playing with sound! Enjoy! 🎶";
-            btn.style.opacity = "0.7";
-            btn.disabled = true;
-            // also burst extra confetti when unmuted
+    function unMuteVideo() {
+        // YouTube iframe API: send postMessage to un mute
+        // We need to access the contentWindow and send the command
+        if (iframe) {
+            // Command to unMute: {"event":"command","func":"unMute","args":""}
+            iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+            // Also set volume to 70
+            iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[70]}', '*');
+            unmuteBtn.innerHTML = "🔊 Song is playing with sound! Enjoy! 🎶";
+            unmuteBtn.disabled = true;
+            unmuteBtn.style.opacity = "0.6";
+            // burst confetti on unmute
             burstConfetti(window.innerWidth/2, window.innerHeight/2, 100);
         }
     }
-
-    // Load the IFrame API script dynamically
-    function loadYouTubeAPI() {
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-    loadYouTubeAPI();
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-
-    // ============================================================
-    // 2. CONFETTI SYSTEM (Shiny celebration)
-    // ============================================================
+    
+    unmuteBtn.addEventListener('click', unMuteVideo);
+    
+    // ========== CONFETTI SYSTEM ==========
     const canvas = document.getElementById("confettiCanvas");
     const ctx = canvas.getContext("2d");
     let width = window.innerWidth;
@@ -334,12 +299,11 @@
         function animateConfetti() {
             ctx.clearRect(0, 0, width, height);
             let anyAlive = false;
-            for (let i = 0; i < particles.length; i++) {
-                const alive = particles[i].update();
-                particles[i].draw();
-                if (alive) anyAlive = true;
+            for (let p of particles) {
+                if (p.update()) anyAlive = true;
+                p.draw();
             }
-            if (anyAlive && particles.length) {
+            if (anyAlive) {
                 animationId = requestAnimationFrame(animateConfetti);
             } else {
                 cancelAnimationFrame(animationId);
@@ -350,7 +314,6 @@
         animateConfetti();
     }
 
-    // Confetti button
     document.getElementById("confettiButton").addEventListener("click", (e) => {
         const rect = e.target.getBoundingClientRect();
         burstConfetti(rect.left + rect.width/2, rect.top + rect.height/2, 220);
@@ -359,10 +322,8 @@
         // Flash effect
         const flash = document.createElement("div");
         flash.style.position = "fixed";
-        flash.style.top = 0;
-        flash.style.left = 0;
-        flash.style.width = "100%";
-        flash.style.height = "100%";
+        flash.style.top = 0; flash.style.left = 0;
+        flash.style.width = "100%"; flash.style.height = "100%";
         flash.style.backgroundColor = "rgba(255,245,180,0.6)";
         flash.style.pointerEvents = "none";
         flash.style.zIndex = "999";
@@ -371,26 +332,13 @@
         setTimeout(() => flash.remove(), 500);
     });
 
-    // unmute button event
-    document.getElementById("unmuteButton").addEventListener("click", () => {
-        if (player && typeof player.unMute === 'function') {
-            unMuteSong();
-        } else {
-            alert("Please wait a moment for the player to load, then click again.");
-        }
-    });
+    const flashStyle = document.createElement("style");
+    flashStyle.textContent = `@keyframes fadeOutFlash { 0% { opacity: 0.8; } 100% { opacity: 0; visibility: hidden; } }`;
+    document.head.appendChild(flashStyle);
 
-    // Add flash keyframe
-    const style = document.createElement('style');
-    style.textContent = `@keyframes fadeOutFlash { 0% { opacity: 0.8; } 100% { opacity: 0; visibility: hidden; } }`;
-    document.head.appendChild(style);
-
-    // ============================================================
-    // 3. FLOATING SPARKLES & HEARTS (continuous celebration)
-    // ============================================================
+    // ========== FLOATING SPARKLES & HEARTS ==========
     const particleContainer = document.getElementById("particleContainer");
-    const SPARKLE_COUNT = 90;
-    for (let i = 0; i < SPARKLE_COUNT; i++) {
+    for (let i = 0; i < 90; i++) {
         const spark = document.createElement("div");
         const size = Math.random() * 7 + 3;
         spark.style.position = "absolute";
@@ -408,7 +356,6 @@
         particleContainer.appendChild(spark);
     }
 
-    // floating hearts animation
     function spawnHeart() {
         const heart = document.createElement("div");
         heart.innerHTML = ["❤️","💖","💗","💕","💘","💝","💓","💞"][Math.floor(Math.random()*8)];
@@ -425,7 +372,6 @@
     }
     setInterval(spawnHeart, 1500);
 
-    // Add animations CSS
     const animStyle = document.createElement("style");
     animStyle.textContent = `
         @keyframes floatSparkle {
@@ -441,16 +387,10 @@
     `;
     document.head.appendChild(animStyle);
 
-    // Welcome burst on load
+    // initial burst
     window.addEventListener("load", () => {
-        setTimeout(() => burstConfetti(width/2, height/2, 130), 300);
-        setTimeout(() => burstConfetti(width/4, height/3, 70), 800);
-        setTimeout(() => {
-            // also show a small note if player exists
-            if (player && player.getPlayerState) {
-                console.log("Happy birthday song ready (muted)");
-            }
-        }, 1000);
+        setTimeout(() => burstConfetti(width/2, height/2, 120), 400);
+        setTimeout(() => burstConfetti(width/3, height/3, 70), 900);
     });
 </script>
 </body>
